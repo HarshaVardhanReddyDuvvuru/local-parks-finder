@@ -1,23 +1,45 @@
-import { useState, useEffect } from 'react'
+import { Icon } from 'leaflet'
+import markerIconPng from 'leaflet/dist/images/marker-icon.png'
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 
-import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
-function Map() {
-  const [map, setMap] = useState(null)
+function SetViewOnClick({ coords }) {
+  const map = useMap()
+  map.setView(coords, map.getZoom())
+  return null
+}
 
-  useEffect(() => {
-    const map = L.map('map').setView([51.505, -0.09], 13)
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
-    }).addTo(map)
-
-    setMap(map)
-  }, [])
-
-  return <div id="map" style={{ height: '100vh' }} />
+function Map(props: any) {
+  return (
+    <MapContainer
+      key={props.location}
+      center={[55.505, -0.09]}
+      zoom={13}
+      style={{ height: '80vh', width: '100%' }}
+    >
+      <TileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
+      />
+      {parks.map((park) => (
+        <Marker
+          icon={
+            new Icon({
+              iconUrl: markerIconPng,
+              iconSize: [25, 41],
+              iconAnchor: [12, 41],
+            })
+          }
+          key={park.name}
+          position={[park.lat, park.lon]}
+        >
+          <Popup>{park.name}</Popup>
+        </Marker>
+      ))}
+      <SetViewOnClick coords={mapCenter} />
+    </MapContainer>
+  )
 }
 
 export default Map

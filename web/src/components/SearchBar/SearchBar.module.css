@@ -1,0 +1,23 @@
+.form{
+  display:flex;
+  flex-direction: column;
+  width:400px;
+  padding : 20px
+}
+
+.heading{
+  color: "white"
+}
+
+.input{
+  width:150px
+}
+
+.button{
+  width:150px;
+  height:25px;
+  border-radius: 5px;
+  border:none;
+  font-weight:bold;
+
+}

@@ -6,6 +6,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 
 import 'leaflet/dist/leaflet.css'
 import ParkList from '../ParkList/ParkList'
+import SearchBar from '../SearchBar/SearchBar'
 
 const HomePage = () => {
   const [location, setLocation] = useState('')
@@ -55,9 +56,9 @@ const HomePage = () => {
     () => (
       <MapContainer
         key={location}
-        center={[55.505, -0.09]}
+        center={[0, 0]}
         zoom={13}
-        style={{ height: '80vh', width: '100%' }}
+        style={{ height: '500px', width: '100%' }}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -92,17 +93,14 @@ const HomePage = () => {
 
   return (
     <div>
-      <form onSubmit={handleSearch}>
-        <label htmlFor="location">Enter your location:</label>
-        <input
-          type="text"
-          id="location"
-          value={location}
-          onChange={handleLocationChange}
+      <div style={{ display: 'flex', backgroundColor: 'grey' }}>
+        <SearchBar
+          location={location}
+          handleSearch={handleSearch}
+          handleLocationChange={handleLocationChange}
         />
-        <button type="submit">Search</button>
-      </form>
-      {renderMap}
+        {renderMap}
+      </div>
       <ParkList parks={parks} />
     </div>
   )
